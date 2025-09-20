@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="DeviceIDType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{3}[0-9]{4}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  
+<xs:simpleType name="FirmwareVerType">
+  <xs:union memberTypes="xs:string">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:pattern value="v[0-9]+\.[0-9]+\.[0-9]+"/>
+      </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:pattern value=""/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:union>
+</xs:simpleType>
+
+
+<xs:simpleType name="AlertLevelType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="LOW"/>
+    <xs:enumeration value="MEDIUM"/>
+    <xs:enumeration value="HIGH"/>
+    <xs:enumeration value="CRITICAL"/>
+    <xs:enumeration value=""/> 
+  </xs:restriction>
+</xs:simpleType>
+
+  <xs:element name="smartlogs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="entry" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="device">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="device_id" type="DeviceIDType"/>
+                    <xs:element name="location" type="xs:string" minOccurs="0"/>
+                    <xs:element name="firmware_ver" type="FirmwareVerType" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="metrics">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="temperature" type="xs:float"/>
+                    <xs:element name="humidity" type="xs:int"/>
+                    <xs:element name="battery" type="xs:int"/>
+                  </xs:sequence>
+                  <xs:attribute name="status" type="xs:string" use="optional"/>
+                  <xs:attribute name="alert_level" type="AlertLevelType" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="timestamp" type="xs:string"/>
+              <xs:element name="event_code">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:int">
+                      <xs:attribute name="hexBig" type="xs:string" use="required"/>
+                      <xs:attribute name="hexLittle" type="xs:string" use="required"/>
+                      <xs:attribute name="decimal" type="xs:unsignedInt" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:int" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
