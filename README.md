@@ -49,3 +49,11 @@ This project focuses on reliable file handling, data integrity, and cross-platfo
 ### Build  
 ```bash
 gcc -o log_converter main.c -ljson -lxml2
+
+## 📈 Highlights  
+
+- Demonstrates **low-level data handling** in C  
+- Implements **cross-platform** support for file parsing  
+- Uses **endian conversion** for binary-to-human-readable transformations  
+- Strong focus on **data validation & integrity**  
+
